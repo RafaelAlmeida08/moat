@@ -24,4 +24,25 @@ class AlbumController extends AbstractController
             'albums' => $albumRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/new", name="app_album_new", methods={"GET", "POST"})
+     */
+    public function new(Request $request, AlbumRepository $albumRepository): Response
+    {
+        $album = new Album();
+        $form = $this->createForm(AlbumType::class, $album);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $albumRepository->add($album, true);
+
+            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('album/new.html.twig', [
+            'album' => $album,
+            'form' => $form,
+        ]);
+    }
 }
