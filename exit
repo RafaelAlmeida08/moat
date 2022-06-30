@@ -1,0 +1,107 @@
+[33mcommit f05c78d61e279799c2ffa9dd4ee286a24fda1665[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:43:56 2022 -0300
+
+    create new user method and view
+
+[33mcommit 1f4b13c8ff4564d8bf1dc5772d6b29d8cfa4227c[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:42:31 2022 -0300
+
+    create user controller and index view
+
+[33mcommit d58fc9d0df1f9f4654557a68fe9648f3c58ca034[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:38:26 2022 -0300
+
+    create user table migration
+
+[33mcommit 31a53dd91e5bec14dba1256d6e926d318bba9978[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:37:48 2022 -0300
+
+    create user entity and repository
+
+[33mcommit da2b12236bd2a3968dfbeccbcddd68fe4524fd2f[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:33:18 2022 -0300
+
+    update new album form add datetype
+
+[33mcommit a633b2a09e4853759478c18f1a40a4e6849670db[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:29:15 2022 -0300
+
+    update new album form add artists from api
+
+[33mcommit afed54ddf1b35a2f030bf50a7dbb2c0bf15dd739[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:28:49 2022 -0300
+
+    create getAllArtist helper
+
+[33mcommit d7f5cb3e47f914efb95d4abfe04156b16557305e[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:24:52 2022 -0300
+
+    create delete method and view
+
+[33mcommit e9d1f78cdad065486b3186b37bccf86289d8a9b9[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:24:18 2022 -0300
+
+    create edit method and view
+
+[33mcommit 0bead15f2a668a98a6e1f27c4bde25f5b9c1ae6e[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:23:38 2022 -0300
+
+    create show method and view
+
+[33mcommit bc00e437849e28897f9be706e315068c5186b13f[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:22:43 2022 -0300
+
+    create new method and view
+
+[33mcommit 49b0dfe05ddc1305b243e5fb21aa186c6503cf29[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:21:56 2022 -0300
+
+    create album controller and index view
+
+[33mcommit 99ebefb2712e63a494dc0f7657874ab494fc55cd[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:17:44 2022 -0300
+
+    create album table migration
+
+[33mcommit 2dabc2b559b75092906d4a3e3a0cac756c87db2c[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:17:17 2022 -0300
+
+    update db type
+
+[33mcommit 479cb5357a10c0505a69f103025f7f7eb336c402[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:16:12 2022 -0300
+
+    create albumentity and repository
+
+[33mcommit 1ff485ffb5e6b0ab88e4c4a3f5414736e47a597b[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:12:46 2022 -0300
+
+    framework commit
+
+[33mcommit fd76dfd19e8c5eeaccee0360601a9f7a74b00cba[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:08:06 2022 -0300
+
+    Add webapp packages
+
+[33mcommit f75053a806f74ead3c8f6310043e13f167d0cb39[m
+Author: RafaelAlmeida08 <rafaelalmeida.08@hotmail.com>
+Date:   Thu Jun 30 11:07:22 2022 -0300
+
+    Add initial set of files
