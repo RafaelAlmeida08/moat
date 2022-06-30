@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Helpers\GetArtists;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AlbumType extends AbstractType
 {
@@ -20,7 +21,7 @@ class AlbumType extends AbstractType
                 'choices'  => $artists
             ])
             ->add('album_name')
-            ->add('year')
+            ->add('year', DateType::class)
         ;
     }
 
