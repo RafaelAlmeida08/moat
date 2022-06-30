@@ -75,4 +75,16 @@ class AlbumController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @Route("/{id}", name="app_album_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Album $album, AlbumRepository $albumRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$album->getId(), $request->request->get('_token'))) {
+            $albumRepository->remove($album, true);
+        }
+
+        return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
