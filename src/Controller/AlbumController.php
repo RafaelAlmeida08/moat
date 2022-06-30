@@ -55,4 +55,24 @@ class AlbumController extends AbstractController
             'album' => $album,
         ]);
     }
+
+    /**
+     * @Route("/{id}/edit", name="app_album_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, Album $album, AlbumRepository $albumRepository): Response
+    {
+        $form = $this->createForm(AlbumType::class, $album);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $albumRepository->add($album, true);
+
+            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('album/edit.html.twig', [
+            'album' => $album,
+            'form' => $form,
+        ]);
+    }
 }
