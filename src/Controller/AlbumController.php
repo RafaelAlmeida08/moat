@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Helpers\CheckUserAuth;
 
 /**
  * @Route("/album")
@@ -18,8 +19,11 @@ class AlbumController extends AbstractController
     /**
      * @Route("/", name="app_album_index", methods={"GET"})
      */
-    public function index(AlbumRepository $albumRepository): Response
-    {
+    public function index(Request $request, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+    { 
+        if(!$validator->index($request)) {
+            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('album/index.html.twig', [
             'albums' => $albumRepository->findAll(),
         ]);
