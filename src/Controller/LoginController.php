@@ -9,8 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @Route("/login")
@@ -37,6 +37,9 @@ class LoginController extends AbstractController
         if(!$user || $user->getPassword() !== $password) {
           return new Response('Invalid credentials');
         }
+        $session = new Session();
+        $session->set('user', $user);
+        return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
       }
         return $this->renderForm('login/index.html.twig', [
             'form' => $form

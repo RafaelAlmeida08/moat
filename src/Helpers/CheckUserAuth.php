@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Helpers;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CheckUserAuth {
+  public function __construct(RequestStack $requestStack)
+  {
+      $this->requestStack = $requestStack;
+  }
+  public function index (){ 
 
-  public function index (Request $request){ 
-    if(!isset($_SESSION['user'])){
-      return;
+    $session = $this->requestStack->getSession();
+    if(!$session->get('user')){
+      return false;
     }
+    return true;
   }
 }

@@ -19,9 +19,9 @@ class AlbumController extends AbstractController
     /**
      * @Route("/", name="app_album_index", methods={"GET"})
      */
-    public function index(Request $request, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+    public function index(AlbumRepository $albumRepository, CheckUserAuth $validator): Response
     { 
-        if(!$validator->index($request)) {
+        if(!$validator->index()) {
             return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('album/index.html.twig', [
@@ -32,8 +32,11 @@ class AlbumController extends AbstractController
     /**
      * @Route("/new", name="app_album_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, AlbumRepository $albumRepository): Response
+    public function new(Request $request, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
     {
+        if(!$validator->index()) {
+            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+        }
         $album = new Album();
         $form = $this->createForm(AlbumType::class, $album);
         $form->handleRequest($request);
@@ -53,8 +56,11 @@ class AlbumController extends AbstractController
     /**
      * @Route("/{id}", name="app_album_show", methods={"GET"})
      */
-    public function show(Album $album): Response
+    public function show(Album $album, CheckUserAuth $validator): Response
     {
+        if(!$validator->index()) {
+            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('album/show.html.twig', [
             'album' => $album,
         ]);
@@ -63,8 +69,11 @@ class AlbumController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_album_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Album $album, AlbumRepository $albumRepository): Response
+    public function edit(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
     {
+        if(!$validator->index()) {
+            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(AlbumType::class, $album);
         $form->handleRequest($request);
 
@@ -83,8 +92,11 @@ class AlbumController extends AbstractController
     /**
      * @Route("/{id}", name="app_album_delete", methods={"POST"})
      */
-    public function delete(Request $request, Album $album, AlbumRepository $albumRepository): Response
+    public function delete(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
     {
+        if(!$validator->index()) {
+            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+        }
         if ($this->isCsrfTokenValid('delete'.$album->getId(), $request->request->get('_token'))) {
             $albumRepository->remove($album, true);
         }
