@@ -10,12 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Helpers\CheckUserAuth;
+use Symfony\Component\HttpFoundation\RequestStack;
+use App\Helpers\GetArtists;
 
 /**
  * @Route("/album")
  */
 class AlbumController extends AbstractController
 {
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+        
+    }
     /**
      * @Route("/", name="app_album_index", methods={"GET"})
      */
@@ -24,8 +31,20 @@ class AlbumController extends AbstractController
         if(!$validator->index()) {
             return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
         }
+        $api = new GetArtists();
+        $artists = ($api->index());
+        $albums =  $albumRepository->findAll();
+    
+        foreach($albums as $album) {
+            $album->SetArtist(array_search(
+                $album->getArtist(), 
+                $artists
+            ));
+         }
+
         return $this->render('album/index.html.twig', [
             'albums' => $albumRepository->findAll(),
+            'artists' => $artists
         ]);
     }
 
@@ -74,6 +93,8 @@ class AlbumController extends AbstractController
         if(!$validator->index()) {
             return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
         }
+        $session = $this->requestStack->getSession();
+        $user = $session->get('user');
         $form = $this->createForm(AlbumType::class, $album);
         $form->handleRequest($request);
 
@@ -86,6 +107,7 @@ class AlbumController extends AbstractController
         return $this->renderForm('album/edit.html.twig', [
             'album' => $album,
             'form' => $form,
+            'role' => $user->getRole()
         ]);
     }
 
