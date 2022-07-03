@@ -37,12 +37,12 @@ class Album
         return $this->id;
     }
 
-    public function getArtist(): ?int
+    public function getArtist(): ?string
     {
         return $this->artist;
     }
 
-    public function setArtist(int $artist): self
+    public function setArtist($artist): self
     {
         $this->artist = $artist;
 
