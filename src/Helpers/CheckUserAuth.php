@@ -9,11 +9,11 @@ class CheckUserAuth {
       $this->requestStack = $requestStack;
   }
   public function index (){ 
-
     $session = $this->requestStack->getSession();
-    if(!$session->get('user')){
+    $user = $session->get('user');
+    if(!$user){
       return false;
     }
-    return true;
+    return $user;
   }
 }
