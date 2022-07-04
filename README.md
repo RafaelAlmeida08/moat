@@ -11,6 +11,8 @@ After cloning the project you must open your terminal and run the following comm
 
 3 - php bin/console doctrine:migrations:migrate
 
+4 - php bin/console server:run
+
 Those commands will download all the dependencies, create the database and migrate the database to the database specified.
 We are using the SQLITE database to make it simple.
 
