@@ -5,6 +5,7 @@
 
 {% block body %}
 	<h1>Artists Page</h1>
+    {{ include('login/_logout_form.html.twig') }}
     <a href="{{ path('app_album_new') }}">New Album</a>
     <a href="{{ path('app_album_index') }}">See Albums</a>
 	 <table class="table">
