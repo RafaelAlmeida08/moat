@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Helpers\CheckUserAuth;
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Helpers\GetArtists;
+use App\Helpers\GetAllArtists;
 
 /**
  * @Route("/album")
@@ -122,7 +122,7 @@ class AlbumController extends AbstractController
 
   private function getAlbums(AlbumRepository $albumRepository)
   {
-    $api = new GetArtists();
+    $api = new GetAllArtists();
     $artists = ($api->index());
     $albums =  $albumRepository->findAll();
 
@@ -137,7 +137,7 @@ class AlbumController extends AbstractController
 
   private function getAlbum(AlbumRepository $albumRepository, $id)
   {
-    $api = new GetArtists();
+    $api = new GetAllArtists();
     $artists = ($api->index());
     $album =  $albumRepository->find($id);
     $album->SetArtist(array_search(
