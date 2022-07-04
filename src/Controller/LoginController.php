@@ -36,7 +36,7 @@ class LoginController extends AbstractController
       }
       $session = new Session();
       $session->set('user', $user);
-      return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+      return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
     }
     return $this->renderForm('login/index.html.twig', [
       'form' => $form
@@ -52,8 +52,6 @@ class LoginController extends AbstractController
 
     $session = $this->requestStack->getSession();
     $session->clear();
-    return $this->renderForm('login/index.html.twig', [
-      'form' => $form
-    ]);
+    return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
   }
 }
