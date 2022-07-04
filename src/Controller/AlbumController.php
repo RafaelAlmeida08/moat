@@ -18,111 +18,132 @@ use App\Helpers\GetArtists;
  */
 class AlbumController extends AbstractController
 {
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
-        
-    }
-    /**
-     * @Route("/", name="app_album_index", methods={"GET"})
-     */
-    public function index(AlbumRepository $albumRepository, CheckUserAuth $validator): Response
-    { 
-        if(!$validator->index()) {
-            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
-        }
-        $api = new GetArtists();
-        $artists = ($api->index());
-        $albums =  $albumRepository->findAll();
-    
-        foreach($albums as $album) {
-            $album->SetArtist(array_search(
-                $album->getArtist(), 
-                $artists
-            ));
-         }
-
-        return $this->render('album/index.html.twig', [
-            'albums' => $albumRepository->findAll(),
-            'artists' => $artists
-        ]);
+  public function __construct(RequestStack $requestStack)
+  {
+    $this->requestStack = $requestStack;
+  }
+  /**
+   * @Route("/", name="app_album_index", methods={"GET"})
+   */
+  public function index(AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+  {
+    if (!$validator->index()) {
+      return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/new", name="app_album_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
-    {
-        if(!$validator->index()) {
-            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
-        }
-        $album = new Album();
-        $form = $this->createForm(AlbumType::class, $album);
-        $form->handleRequest($request);
+    return $this->render('album/index.html.twig', [
+      'albums' =>  $this->getAlbums($albumRepository)
+    ]);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $albumRepository->add($album, true);
+  /**
+   * @Route("/new", name="app_album_new", methods={"GET", "POST"})
+   */
+  public function new(Request $request, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+  {
+    if (!$validator->index()) {
+      return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+    }
+    $album = new Album();
+    $form = $this->createForm(AlbumType::class, $album);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      $albumRepository->add($album, true);
 
-        return $this->renderForm('album/new.html.twig', [
-            'album' => $album,
-            'form' => $form,
-        ]);
+      return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/{id}", name="app_album_show", methods={"GET"})
-     */
-    public function show(Album $album, CheckUserAuth $validator): Response
-    {
-        if(!$validator->index()) {
-            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
-        }
-        return $this->render('album/show.html.twig', [
-            'album' => $album,
-        ]);
+    return $this->renderForm('album/new.html.twig', [
+      'album' => $album,
+      'form' => $form,
+    ]);
+  }
+
+  /**
+   * @Route("/{id}", name="app_album_show", methods={"GET"})
+   */
+  public function show(AlbumRepository $albumRepository, Album $album, CheckUserAuth $validator): Response
+  {
+    if (!$validator->index()) {
+      return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+    }
+    return $this->render('album/show.html.twig', [
+      'album' => $this->getAlbum($albumRepository, $album->getId()),
+      'role' => $this->getUserRole()
+    ]);
+  }
+
+  /**
+   * @Route("/{id}/edit", name="app_album_edit", methods={"GET", "POST"})
+   */
+  public function edit(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+  {
+    if (!$validator->index()) {
+      return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+    }
+    $form = $this->createForm(AlbumType::class, $album);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $albumRepository->add($album, true);
+
+      return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_album_edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
-    {
-        if(!$validator->index()) {
-            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
-        }
-        $session = $this->requestStack->getSession();
-        $user = $session->get('user');
-        $form = $this->createForm(AlbumType::class, $album);
-        $form->handleRequest($request);
+    return $this->renderForm('album/edit.html.twig', [
+      'album' => $album,
+      'form' => $form,
+      'role' => $this->getUserRole()
+    ]);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $albumRepository->add($album, true);
-
-            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('album/edit.html.twig', [
-            'album' => $album,
-            'form' => $form,
-            'role' => $user->getRole()
-        ]);
+  /**
+   * @Route("/{id}", name="app_album_delete", methods={"POST"})
+   */
+  public function delete(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
+  {
+    if (!$validator->index()) {
+      return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
+    }
+    if ($this->isCsrfTokenValid('delete' . $album->getId(), $request->request->get('_token'))) {
+      $albumRepository->remove($album, true);
     }
 
-    /**
-     * @Route("/{id}", name="app_album_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Album $album, AlbumRepository $albumRepository, CheckUserAuth $validator): Response
-    {
-        if(!$validator->index()) {
-            return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
-        }
-        if ($this->isCsrfTokenValid('delete'.$album->getId(), $request->request->get('_token'))) {
-            $albumRepository->remove($album, true);
-        }
+    return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+  }
 
-        return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+  private function getUserRole(): int
+  {
+    $session = $this->requestStack->getSession();
+    $user = $session->get('user');
+    return $user->getRole();
+  }
+
+  private function getAlbums(AlbumRepository $albumRepository)
+  {
+    $api = new GetArtists();
+    $artists = ($api->index());
+    $albums =  $albumRepository->findAll();
+
+    foreach ($albums as $album) {
+      $album->SetArtist(array_search(
+        $album->getArtist(),
+        $artists
+      ));
     }
+    return $albums;
+  }
+
+  private function getAlbum(AlbumRepository $albumRepository, $id)
+  {
+    $api = new GetArtists();
+    $artists = ($api->index());
+    $album =  $albumRepository->find($id);
+    $album->SetArtist(array_search(
+      $album->getArtist(),
+      $artists
+    ));
+    return $album;
+  }
 }
