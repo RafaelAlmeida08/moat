@@ -1,4 +1,4 @@
-# Courses Platform API
+# Moat Test
 
 This is a project to Moat PHP test.
 
