@@ -30,5 +30,7 @@
 
     <a href="{{ path('app_album_edit', {'id': album.id}) }}">edit</a>
 
-    {{ include('album/_delete_form.html.twig') }}
+    {% if role == 2 %}
+        {{ include('album/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}
