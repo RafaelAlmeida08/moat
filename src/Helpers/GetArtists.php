@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class GetAllArtists {
+class GetArtists {
 
   public function index () { 
     $url = "https://www.moat.ai/api/task/";
@@ -14,7 +14,6 @@ class GetAllArtists {
       "Content-Type: application/json"
     );
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    //for debug only!
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 

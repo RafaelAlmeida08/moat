@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Helpers\GetAllArtists;
+use App\Helpers\GetArtists;
 use App\Helpers\CheckUserAuth;
 
 /**
@@ -29,7 +29,7 @@ class ArtistController extends AbstractController
       return $this->redirectToRoute('app_login_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    $api = new GetAllArtists();
+    $api = new GetArtists();
     $artists = (array_flip($api->index()));
     
     return $this->render('artist/index.html.twig', [
