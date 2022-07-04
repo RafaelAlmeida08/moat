@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
-  {{ include('login/_form.html.twig') }}
+	<h1>Login Page</h1>
+	{% for message in app.flashes('failed_login') %}
+
+		{{ message }}
+
+	{% endfor %}
+	{{ include('login/_form.html.twig') }}
 {% endblock %}
+

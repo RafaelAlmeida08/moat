@@ -33,7 +33,7 @@ class LoginController extends AbstractController
       $password = $form->get('password')->getData();
       $user = $userRepository->findOneByUsername($username);
       if (!$user || $user->getPassword() !== $password) {
-        return new Response('Invalid credentials');
+        $this->addFlash('failed_login', "Sorry, we couldn't find an account with this username. Please check you're using the right username and try again.");
       }
       $session = new Session();
       $session->set('user', $user);
