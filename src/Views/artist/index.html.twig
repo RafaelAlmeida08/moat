@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login
+{% endblock %}
+
+{% block body %}
+	<h1>Artists Page</h1>
+    <a href="{{ path('app_album_new') }}">New Album</a>
+    <a href="{{ path('app_album_index') }}">See Albums</a>
+	 <table class="table">
+        <thead>
+            <tr>
+                <th>Artist Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key, artist in artists %}
+            <tr>
+                <td>{{ artist }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
