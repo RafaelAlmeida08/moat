@@ -10,19 +10,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * @Route("/login")
- */
 class LoginController extends AbstractController
 {
   
-  public function __construct(ManagerRegistry $doctrine)
+  public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
   {
     $this->doctrine = $doctrine;
+    $this->requestStack = $requestStack;
   }
   /**
-   * @Route("/", name="app_login_index", methods={"GET", "POST"})
+   * @Route("/login", name="app_login_index", methods={"GET", "POST"})
    */
   public function index(UserRepository $userRepository, Request $request): Response
   {
@@ -39,6 +38,20 @@ class LoginController extends AbstractController
       $session->set('user', $user);
       return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
     }
+    return $this->renderForm('login/index.html.twig', [
+      'form' => $form
+    ]);
+  }
+   /**
+   * @Route("/logout", name="app_logout", methods={"GET", "POST"})
+   */
+  public function logout(Request $request): Response
+  {
+    $form = $this->createForm(LoginType::class);
+    $form->handleRequest($request);
+
+    $session = $this->requestStack->getSession();
+    $session->clear();
     return $this->renderForm('login/index.html.twig', [
       'form' => $form
     ]);
