@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class GetAllArtists {
+class GetArtists {
 
   public function index () { 
     $url = "https://www.moat.ai/api/task/";
